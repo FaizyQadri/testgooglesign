@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "873028552977",
+    "project_id": "testsignin-2f103",
+    "storage_bucket": "testsignin-2f103.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:873028552977:android:36c37194e53685d0b1e4b0",
+        "android_client_info": {
+          "package_name": "com.googlesignin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAapJfrfXi7d8OOsnv6cCdETs65FlpXp6M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
