@@ -1,18 +1,19 @@
 // In App.js in a new project
 
 import * as React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {
   GoogleSignin,
   GoogleSigninButton,
+  statusCodes,
 } from '@react-native-google-signin/google-signin';
-
+const apikey= 'AIzaSyAapJfrfXi7d8OOsnv6cCdETs65FlpXp6M';
 export const googleSignin = async () => {
   try {
     GoogleSignin.configure({
-      webClientId: 'AIzaSyAapJfrfXi7d8OOsnv6cCdETs65FlpXp6M',
+      webClientId:apikey ,
       scopes: ['profile', 'email'],
       offlineAccess: false,
     });
@@ -23,9 +24,20 @@ export const googleSignin = async () => {
     return userInfo;
   } catch (error) {
     console.log('=> Google sign in', error);
-    // alert(JSON.stringify(error, undefined, 4), ' Logged ');
+    switch (error.code) {
+      case statusCodes.SIGN_IN_CANCELLED:
+        // user cancelled the login flow
+        break;
+      case statusCodes.IN_PROGRESS:
+        // operation (eg. sign in) already in progress
+        break;
+      case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+        // play services not available or outdated
+        break;
+      default:
   }
 };
+}
 
 function HomeScreen() {
   const naviagtion = useNavigation();
@@ -33,34 +45,20 @@ function HomeScreen() {
   const signIn = async () => {
     googleSignin()
       .then(data => {
-        // console.log(JSON.stringify(data, undefined, 4), 'google soignin');
         if (!data) {
-          // alert('Faliure');
           console.log('Faliure');
           return;
         } else {
-          // alert("success" + data);
-          // alert(JSON.stringify(data, undefined, 4))
-          // console.log(data.user.email)
           naviagtion.navigate('Details');
-          // navigation.navigate('ProfileRegisteration');
         }
       })
       .catch(error => {
         console.log(error, 'error on google signins');
-        // alert(JSON.stringify(error, undefined, 4), ' Logged ');
       });
   };
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingHorizontal: 20,
-      }}>
-      <Text>Home Screen</Text>
-
+    <View style={styles.homeRoot}>
+      <Tex style={styles.homeText}>Home Screen</Text>
       <GoogleSigninButton onPress={signIn} />
     </View>
   );
@@ -68,8 +66,8 @@ function HomeScreen() {
 
 function DetailsScreen() {
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Details Screen</Text>
+    <View style={styles.homeRoot}>
+      <Tex style={styles.homeText}>Details Screen</Text>
     </View>
   );
 }
@@ -88,3 +86,15 @@ function App() {
 }
 
 export default App;
+
+const styles = StyleSheet.create({
+  homeRoot: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+  },
+  homeText:{
+    color:"black"
+  }
+})
